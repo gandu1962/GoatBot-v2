@@ -1,75 +1,129 @@
-const { GoatWrapper } = require('fca-liane-utils');
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs-extra");
+const request = require("request");
+const moment = require("moment-timezone");
 
 module.exports = {
-	config: {
-		name: "owner",
-		aliases: ["info"],
-		author: "Hasan",
-		role: 0,
-		shortDescription: " ",
-		longDescription: "",
-		category: "info",
-		guide: "{pn}"
-	},
+config: {
+name: "owner",
+version: "3.9",
+author: "Raihan",
+category: "owner",
+guide: {
+en: "Use !owner or type Hinata Admin. Type Hinata add support gc / Hinata add main gc to join GC."
+}
+},
 
-	onStart: async function ({ api, event }) {
-		try {
-			const ownerInfo = {
-				name: '𝑯𝑨𝑺𝑨𝑵 𝑴𝑨𝑯𝑴𝑼𝑫',
-				class: '𝑺𝑺𝑪 𝑪𝑨𝑵𝑫𝑰𝑫𝑨𝑻𝑬',
-				group: '𝑺𝑪𝑰𝑬𝑵𝑪𝑬',
-				gender: '𝑴𝑨𝑳𝑬',
-				Birthday: '𝟐𝟐-𝟎𝟕-𝟐𝟎𝟎𝟖',
-				religion: '𝑰𝑺𝑳𝑨𝑴',
-				hobby: '𝑭𝒍𝒊𝒓𝒕𝒊𝒏𝒈 😁',
-				Fb: 'https://www.facebook.com/Itz.HaSaN.00',
-				Relationship: '𝑨𝑳𝑾𝑨𝒀𝑺 𝑩𝑬 𝑺𝑰𝑵𝑮𝑳𝑬',
-				Height: '5"4'
-			};
-
-			const bold = 'https://i.imgur.com/Ch8ZvsM.mp4';
-			const tmpFolderPath = path.join(__dirname, 'tmp');
-
-			if (!fs.existsSync(tmpFolderPath)) {
-				fs.mkdirSync(tmpFolderPath);
-			}
-
-			const videoResponse = await axios.get(bold, { responseType: 'arraybuffer' });
-			const videoPath = path.join(tmpFolderPath, 'owner_video.mp4');
-
-			fs.writeFileSync(videoPath, Buffer.from(videoResponse.data, 'binary'));
-
-			const response = `
-𓀬 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎 𓀬 \n
- ~𝙉𝘼𝙈𝙀: ${ownerInfo.name}
- ~𝘾𝙇𝘼𝙎𝙎: ${ownerInfo.class}
- ~𝙂𝙍𝙊𝙐𝙋: ${ownerInfo.group}
- ~𝙂𝙀𝙉𝘿𝙀𝙍: ${ownerInfo.gender}
- ~𝘽𝙄𝙍𝙏𝙃𝘿𝘼𝙔: ${ownerInfo.Birthday}
- ~𝙍𝙀𝙇𝙄𝙂𝙄𝙊𝙉: ${ownerInfo.religion}
- ~𝙍𝙀𝙇𝘼𝙏𝙄𝙊𝙉𝙎𝙃𝙄𝙋: ${ownerInfo.Relationship}
- ~𝙃𝙊𝘽𝘽𝙔: ${ownerInfo.hobby}
- ~𝙃𝙀𝙄𝙂𝙃𝙏: ${ownerInfo.Height}
- ~𝙁𝘽: ${ownerInfo.Fb}
-			`;
-
-			await api.sendMessage({
-				body: response,
-				attachment: fs.createReadStream(videoPath)
-			}, event.threadID, event.messageID);
-
-			fs.unlinkSync(videoPath);
-
-			api.setMessageReaction('😘', event.messageID, (err) => {}, true);
-		} catch (error) {
-			console.error('Error in ownerinfo command:', error);
-			return api.sendMessage('An error occurred while processing the command.', event.threadID);
-		}
-	}
+onStart: async function ({ api, event }) {
+const ownerInfo = {
+name: "Tʌɱɩɱ Hʌwɭʌdeʀ",
+gender: "𝙼𝚊𝚕𝚎",
+bio: " 🌷",
+nick: "Tʌɱɩɱ",
+hobby: "gaming",
+from: "from mohakhali,dhaka-1212",
+age: "Error 🙂",
+status: "Student"
 };
 
-const wrapper = new GoatWrapper(module.exports);
-wrapper.applyNoPrefix({ allowPrefix: true });
+const botUptime = (() => {  
+  const sec = process.uptime();  
+  const d = Math.floor(sec / (3600 * 24));  
+  const h = Math.floor((sec % (3600 * 24)) / 3600);  
+  const m = Math.floor((sec % 3600) / 60);  
+  return `${d}d ${h}h ${m}m`;  
+})();  
+
+const now = moment().tz("Asia/Dhaka").format("h:mm A • dddd");  
+
+const mainGC = "Hinata 🌷 ";  
+const supportGC = "Hinata 🌷 Support Gc";  
+
+await api.sendMessage("w8 baby...", event.threadID);  
+
+const body = `
+
+🌸┌────────────────┐🌸
+𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢
+🌸└────────────────┘🌸
+
+✧ Name ➝ ${ownerInfo.name}
+✧ Gender ➝ ${ownerInfo.gender}
+✧ From ➝ ${ownerInfo.from}
+✧ Age ➝ ${ownerInfo.age}
+✧ Hobby ➝ ${ownerInfo.hobby}
+✧ Status ➝ ${ownerInfo.status}
+
+━━━━━━━━━━━━━━━━━━
+
+✦ Bot Name ➝ ${ownerInfo.bio}
+✦ Admin ➝ ${ownerInfo.nick}
+
+━━━━━━━━━━━━━━━━━━
+
+✨ Uptime ➝ ${botUptime}
+✨ Time ➝ ${now}
+
+📝 Any problem? Talk to admin.
+
+𝚁𝚙𝚕𝚢 𝚝𝚑𝚒𝚜 𝚖𝚜𝚐 𝚊𝚗𝚍
+𝚃𝚢𝚙𝚎... 𝚑𝚒𝚗𝚊𝚝𝚊 𝚊𝚍𝚍 𝚜𝚞𝚙𝚙𝚘𝚛𝚝 𝚐𝚌 / 𝚖𝚊𝚒𝚗 𝚐𝚌
+
+✨ Main GC ➝ ${mainGC}
+✨ Support GC ➝ ${supportGC}
+
+💫 Thanks for using me 💫
+`;
+
+try {  
+  const videoPath = `${__dirname}/cache/owner.mp4`;  
+  await new Promise((resolve, reject) => {  
+    request("https://i.imgur.com/QBzhant.mp4")  
+      .pipe(fs.createWriteStream(videoPath))  
+      .on("close", resolve)  
+      .on("error", reject);  
+  });  
+
+  const msg = await api.sendMessage({  
+    body,  
+    attachment: fs.createReadStream(videoPath)  
+  }, event.threadID);  
+
+  fs.unlinkSync(videoPath);  
+  this.lastOwnerMsgID = msg.messageID;  
+
+} catch (e) {  
+  console.error("Video send error:", e);  
+  const msg = await api.sendMessage(body, event.threadID);  
+  this.lastOwnerMsgID = msg.messageID;  
+}
+
+},
+
+onChat: async function ({ api, event }) {
+if (!event.body) return;
+const msg = event.body.toLowerCase().trim();
+
+if (msg === "!owner" || msg === "hinata admin") {  
+  await this.onStart({ api, event });  
+  return;  
+}  
+
+if (msg === "hinata add support gc" || msg === "hinata add main gc") {  
+  if (!(event.messageReply && event.messageReply.messageID === this.lastOwnerMsgID)) {  
+    return; // Ignore if not replying to owner info  
+  }  
+
+  const gcTID = msg.includes("support") ? "30071633045785811" : "23978896525079984";  
+  const gcName = msg.includes("support") ? "Support GC" : "Main GC";  
+
+  try {  
+    await api.addUserToGroup(event.senderID, gcTID);  
+    await api.sendMessage(`🎀 bby check your msgbox join in ${gcName}!`, event.threadID, event.messageID);  
+  } catch (e) {  
+    console.error("Add error:", e);  
+    await api.sendMessage("🐸🌷 𝙱𝚋𝚢 𝚖𝚊𝚢𝚋𝚎 𝚢𝚘𝚞 𝙰𝚕𝚛𝚎𝚊𝚍𝚢 𝚓𝚘𝚒𝚗𝚎𝚍 𝙲𝚑𝚎𝚌𝚔 𝚢𝚘𝚞𝚛 𝚖𝚎𝚜𝚜𝚊𝚐𝚎𝚜 𝚛𝚎𝚚𝚞𝚎𝚜𝚝 🤍.", event.threadID, event.messageID);  
+  }  
+}
+
+}
+};
